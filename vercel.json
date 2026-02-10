@@ -3,23 +3,9 @@
   "outputDirectory": "dist",
   "framework": "vite",
   "rewrites": [
-    { "source": "/api/auth/login", "destination": "/api/auth/login" },
-    { "source": "/api/auth/register", "destination": "/api/auth/register" },
-    { "source": "/api/auth/logout", "destination": "/api/auth/logout" },
-    { "source": "/api/auth/me", "destination": "/api/auth/me" },
-    { "source": "/api/fund/list", "destination": "/api/fund/list" },
-    { "source": "/api/fund/add", "destination": "/api/fund/add" },
-    { "source": "/api/fund/batch-add", "destination": "/api/fund/batch-add" },
-    { "source": "/api/fund/sort", "destination": "/api/fund/sort" },
-    { "source": "/api/fund/group", "destination": "/api/fund/group" },
-    { "source": "/api/fund/groups", "destination": "/api/fund/groups" },
-    { "source": "/api/fund/remove", "destination": "/api/fund/remove" },
-    { "source": "/api/fund/detail", "destination": "/api/fund/detail" },
-    { "source": "/api/fund/user-groups", "destination": "/api/fund/user-groups" },
-    { "source": "/api/holding/trade", "destination": "/api/holding/trade" },
-    { "source": "/api/holding/update", "destination": "/api/holding/update" },
-    { "source": "/api/holding/transactions", "destination": "/api/holding/transactions" },
-    { "source": "/api/holding/delete-transaction", "destination": "/api/holding/delete-transaction" },
+    { "source": "/api/auth", "destination": "/api/auth" },
+    { "source": "/api/fund", "destination": "/api/fund" },
+    { "source": "/api/holding", "destination": "/api/holding" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }

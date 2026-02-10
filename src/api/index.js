@@ -1,6 +1,5 @@
 import axios from 'axios'
 
-// API 基础路径，Vercel 部署时前后端同域，直接用 /api
 const api = axios.create({
   baseURL: '/api',
   timeout: 15000,
@@ -30,40 +29,52 @@ api.interceptors.response.use(
 
 // 认证相关接口
 export const authApi = {
-  login: (username, password) => api.post('/auth/login', { username, password }),
+  login: (username, password) =>
+    api.post('/auth?action=login', { username, password }),
   register: (username, password, nickname) =>
-    api.post('/auth/register', { username, password, nickname }),
-  logout: () => api.post('/auth/logout'),
-  getMe: () => api.get('/auth/me')
+    api.post('/auth?action=register', { username, password, nickname }),
+  logout: () => api.post('/auth?action=logout'),
+  getMe: () => api.get('/auth?action=me')
 }
 
 // 基金相关接口
 export const fundApi = {
-  getList: (groupName) => api.get('/fund/list', { params: { groupName } }),
-  getDetail: (code) => api.get('/fund/detail', { params: { code } }),
-  search: (keyword) => api.get('/fund/list', { params: { keyword } }),
-  add: (code, groupName, amount) => api.post('/fund/add', { code, groupName, amount }),
-  batchAdd: (codes) => api.post('/fund/batch-add', { codes }),
-  remove: (code) => api.delete('/fund/remove', { params: { code } }),
-  updateSort: (orders) => api.put('/fund/sort', { orders }),
-  updateFundGroup: (code, groupName) => api.put('/fund/group', { code, groupName }),
-  getGroups: () => api.get('/fund/groups'),
-  getUserGroups: () => api.get('/fund/user-groups'),
+  getList: (groupName) =>
+    api.get('/fund', { params: { action: 'list', groupName } }),
+  getDetail: (code) =>
+    api.get('/fund', { params: { action: 'detail', code } }),
+  add: (code, groupName, amount) =>
+    api.post('/fund?action=add', { code, groupName, amount }),
+  batchAdd: (codes) =>
+    api.post('/fund?action=batchAdd', { codes }),
+  remove: (code) =>
+    api.delete('/fund', { params: { action: 'remove', code } }),
+  updateSort: (orders) =>
+    api.put('/fund?action=sort', { orders }),
+  updateFundGroup: (code, groupName) =>
+    api.put('/fund?action=group', { code, groupName }),
+  getGroups: () =>
+    api.get('/fund', { params: { action: 'groups' } }),
+  getUserGroups: () =>
+    api.get('/fund', { params: { action: 'userGroups' } }),
   createGroup: (groupName) =>
-    api.post('/fund/user-groups', { groupName }, { params: { action: 'create' } }),
+    api.post('/fund?action=userGroups&subAction=create', { groupName }),
   updateGroupName: (groupName, newGroupName) =>
-    api.put('/fund/user-groups', { groupName, newGroupName }),
+    api.put('/fund?action=userGroups', { groupName, newGroupName }),
   deleteGroup: (groupName) =>
-    api.delete('/fund/user-groups', { params: { groupName } })
+    api.delete('/fund', { params: { action: 'userGroups', groupName } })
 }
 
 // 持仓/交易相关接口
 export const holdingApi = {
-  trade: (data) => api.post('/holding/trade', data),
-  updateHolding: (data) => api.put('/holding/update', data),
+  trade: (data) =>
+    api.post('/holding?action=trade', data),
+  updateHolding: (data) =>
+    api.put('/holding?action=update', data),
   getTransactions: (fundCode) =>
-    api.get('/holding/transactions', { params: { fundCode } }),
-  getAllTransactions: () => api.get('/holding/transactions'),
+    api.get('/holding', { params: { action: 'transactions', fundCode } }),
+  getAllTransactions: () =>
+    api.get('/holding', { params: { action: 'transactions' } }),
   deleteTransaction: (id) =>
-    api.delete('/holding/delete-transaction', { params: { id } })
+    api.delete('/holding', { params: { action: 'deleteTransaction', id } })
 }
