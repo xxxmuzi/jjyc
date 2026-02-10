@@ -13,13 +13,14 @@ module.exports = async (req, res) => {
     if (!username || !password) {
       return res.json({ success: false, message: '用户名和密码不能为空' })
     }
-    const { data: user } = await supabase
+    const { data: user, error } = await supabase
       .from('users')
       .select('id, username, nickname')
       .eq('username', username)
       .eq('password', password)
       .single()
     if (!user) {
+      console.log('登录失败:', { username, error })
       return res.json({ success: false, message: '用户名或密码错误' })
     }
     const token = `${user.id}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
